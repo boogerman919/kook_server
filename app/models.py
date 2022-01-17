@@ -35,4 +35,4 @@ class Ride(db.Model):
     end_time = db.Column(db.DateTime, index=True)
 
     def __repr__(self):
-        return '<Ride start time: {}>'.format(self.start_time)
+        return '<Ride start time: {}>'.format(self.id)
