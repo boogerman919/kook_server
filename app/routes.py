@@ -1,6 +1,6 @@
 from app import app, db
 from app.models import Ride, User
-from flask import request
+from flask import request, make_response, jsonify
 from datetime import datetime
 
 @app.route('/')
@@ -14,8 +14,13 @@ def start_ride():
 
     db.session.add(ride)
     db.session.commit()
-
-    return {"ride_id": ride.id, "start_time": ride.start_time.strftime("%Y-%m-%dT%H:%M:%SZ")}
+    responseObject = {
+        'status': 'success',
+        'message': 'Successfully started ride.',
+        "ride_id": ride.id,
+        "start_time": ride.start_time.strftime("%Y-%m-%dT%H:%M:%SZ")
+    }
+    return make_response(jsonify(responseObject)), 200
 
 @app.route('/end_ride', methods=['POST'])
 def end_ride():
@@ -27,4 +32,10 @@ def end_ride():
 
     db.session.commit()
 
-    return {"start_time": ride.start_time.strftime("%Y-%m-%dT%H:%M:%SZ"), "end_time": ride.end_time.strftime("%Y-%m-%dT%H:%M:%SZ")}
+    responseObject = {
+        'status': 'success',
+        'message': 'Successfully started ride.',
+        "start_time": ride.start_time.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "end_time": ride.end_time.strftime("%Y-%m-%dT%H:%M:%SZ")
+    }
+    return make_response(jsonify(responseObject)), 200
